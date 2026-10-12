@@ -17,6 +17,11 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Abdo Mostafa","alternateName":"عبدو مصطفى","jobTitle":"Programmer and Graphic Designer","url":"https://abdotiktok771-web.github.io/abdo-oreo-portfolio/","image":"https://abdotiktok771-web.github.io/abdo-oreo-portfolio/images/me.jpg","sameAs":["https://www.facebook.com/profile.php?id=61593916215748"]}</script>
 <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#070d22">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abdo">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
@@ -59,6 +64,7 @@ html[lang=ar] .hero h1 span:nth-child(2) i{-webkit-text-stroke:0;color:var(--ora
 .btn.main:hover{background:var(--orange2);transform:translateY(-2px)}
 .btn.ghost{background:rgba(255,255,255,.07);backdrop-filter:blur(12px)}
 .btn.ghost:hover{background:rgba(255,255,255,.14)}
+.btn[hidden]{display:none}
 .me{padding:12px;border-radius:40px;max-width:420px;justify-self:end;width:100%;opacity:0;animation:fade 1s .5s forwards}
 .me img{display:block;width:100%;height:auto;border-radius:30px}
 .me::after{content:"";position:absolute;z-index:-1;right:-18px;bottom:-18px;width:55%;height:55%;border-radius:40px;background:var(--orange);opacity:.85}
@@ -121,7 +127,7 @@ footer{padding:40px 0;text-align:center;color:var(--muted);font-size:.9rem}
   <div>
     <h1><span><i data-t="n1">Abdo</i></span><span><i data-t="n2">Mostafa</i></span></h1>
     <p class="role" data-t="role">Programmer &amp; Graphic Designer</p>
-    <div class="row"><a class="btn main" href="#work" data-t="btn_work">View my work</a><a class="btn ghost" href="#contact" data-t="btn_contact">Get in touch</a></div>
+    <div class="row"><a class="btn main" href="#work" data-t="btn_work">View my work</a><a class="btn ghost" href="#contact" data-t="btn_contact">Get in touch</a><button class="btn ghost" id="inst" type="button" hidden data-t="inst">Install app</button></div>
   </div>
   <div class="glass me"><img src="images/me.jpg" width="512" height="512" alt="Abdo Mostafa — عبدو مصطفى"></div>
 </div></header>
@@ -211,7 +217,7 @@ s4:'مواقع إلكترونية',s4d:'مواقع سريعة ومتجاوبة �
 work_h:'أعمالي',f_all:'الكل',f_social:'سوشيال ميديا',f_sports:'رياضة',f_clinic:'عيادات',f_edu:'تعليم',
 ct_h:'خلّينا نشتغل مع بعض',ct_p:'عندك مشروع في بالك؟ ابعت رسالة أو كلمني مباشرة.',
 l_mail:'البريد',l_wa:'واتساب',l_call:'اتصال',l_fb:'فيسبوك',ph_name:'اسمك',ph_email:'بريدك الإلكتروني',ph_msg:'احكيلي عن مشروعك',send:'إرسال الرسالة',
-foot:'© {y} عبدو مصطفى. جميع الحقوق محفوظة.'}};
+inst:'ثبّت التطبيق',foot:'© {y} عبدو مصطفى. جميع الحقوق محفوظة.'}};
 document.querySelectorAll('[data-t]').forEach(e=>T.en[e.dataset.t]=e.dataset.t==='foot'?e.textContent.replace('2026','{y}'):e.textContent);
 document.querySelectorAll('[data-ph]').forEach(e=>T.en[e.dataset.ph]=e.placeholder);
 const yr=new Date().getFullYear(),langBtn=document.getElementById('lang');
@@ -249,6 +255,12 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
 lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(cur+(d<0?1:-1))});
 document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);
  location.href='mailto:abdooreo10@gmail.com?subject='+encodeURIComponent('Portfolio message from '+d.get('name'))+'&body='+encodeURIComponent(d.get('msg')+'\n\n'+d.get('email'))});
+// installable app (PWA)
+let dp=null;const ib=document.getElementById('inst');
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;ib.hidden=false});
+ib.onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;ib.hidden=true};
+addEventListener('appinstalled',()=>ib.hidden=true);
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
 </body>
 </html>
