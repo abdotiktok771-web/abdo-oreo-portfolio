@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://abdotiktok771-web.github.io/abdo-oreo-portfolio/sitemap.xml
